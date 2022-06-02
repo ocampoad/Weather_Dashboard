@@ -52,11 +52,15 @@ $("button").click(
 
 function getCityValue() {
     let cityValue = $("input").val();
-    alert(cityValue)
-    const cityAPI = "https://api.openweathermap.org/data/2.5/weather?q=" + cityValue + "&appid=351d28b4fbd0330fa3241a105d978dd6";
+    if (cityValue) {
+        const cityAPI = "https://api.openweathermap.org/data/2.5/weather?q=" + cityValue + "&appid=351d28b4fbd0330fa3241a105d978dd6";
     fetchFuncCity(cityAPI,cityValue)
     $("input").val("")
     currentDayEl.text("")
     next5DaysEl.text("")
+    } else {
+        alert("please input a city")
+    }
+    
 };
 
