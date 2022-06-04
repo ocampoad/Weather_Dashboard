@@ -16,20 +16,28 @@ function fetchFunccoordinates(url, cityValue) {
         .then(data => {
             console.log('Success:', data);
             let weatherIcon = data.current.weather[0].icon
-            let tempinF = 1.8*(data.current.temp - 273.15)+32;
+            console.log(weatherIcon)
+            let tempinF = 1.8 * (data.current.temp - 273.15) + 32;
             let humidityVal = data.current.humidity
             let windSpeed = data.current.wind_speed
             currentDayEl.append(cityValue + ": " + moment().format("dddd, MM/DD/YY") + " ")
             currentDayEl.append(" <img src = 'http://openweathermap.org/img/wn/" + weatherIcon + ".png'>")
-            currentDayEl.append("<div class=' fw-semibold'> Temperature: "+ tempinF.toPrecision(4)+ " °F</div>")
-            currentDayEl.append("<div class=' fw-semibold'> Humidity: "+ humidityVal+ "%</div>")
-            currentDayEl.append("<div class=' fw-semibold'> Wind: "+ windSpeed+ " MPH</div>")
-            // for (i = 1; i < 7; i++) {
-            //     next5DaysEl.append("<div class=' card col-1 fw-bold me-1'>" + moment().add(i, 'days').format("dddd") + "</div>")
-            //     next5DaysEl.append("<div class=' fw-semibold'> Temperature: "+ tempinF.toPrecision(4)+ " °F</div>")
-            //     next5DaysEl.append("<div class=' fw-semibold'> Humidity: "+ humidityVal+ "%</div>")
-            //     next5DaysEl.append("<div class=' fw-semibold'> Wind: "+ windSpeed+ " MPH</div>")
-            // }
+            currentDayEl.append("<div class=' fw-semibold'> Temperature: " + tempinF.toPrecision(4) + " °F</div>")
+            currentDayEl.append("<div class=' fw-semibold'> Humidity: " + humidityVal + "%</div>")
+            currentDayEl.append("<div class=' fw-semibold'> Wind: " + windSpeed + " MPH</div>")
+            for (i = 1; i < 7; i++) {
+                let weatherIcondays = data.daily[i].weather[0].icon
+                console.log(weatherIcondays)
+                let tempinFdays = 1.8 * (data.daily[i].temp.day - 273.15) + 32;
+                let humidityValdays = data.daily[i].humidity
+                let windSpeeddays = data.daily[i].wind_speed
+                let fiveDaysCard = $("<div class=' col-2 fw-bold'></div>")
+                fiveDaysCard.append(moment().add(i, 'days').format("dddd") + "<img src = 'http://openweathermap.org/img/wn/" + weatherIcondays + ".png'></img>");
+                fiveDaysCard.append("<div class=' fw-semibold'> Temperature: " + tempinFdays.toPrecision(4) + " °F</div>")
+                fiveDaysCard.append("<div class=' fw-semibold'> Humidity: " + humidityValdays + "%</div>")
+                fiveDaysCard.append("<div class=' fw-semibold'> Wind: " + windSpeeddays + " MPH</div>")
+                next5DaysEl.append(fiveDaysCard)
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -60,8 +68,8 @@ function getCityValue() {
     if (cityValue) {
         const cityAPI = "https://api.openweathermap.org/data/2.5/weather?q=" + cityValue + "&appid=351d28b4fbd0330fa3241a105d978dd6";
         if ($("button:contains(" + cityValue + ")").length <= 0) {
-            $("#searchArea").append("<button type='button' class=' btn-dark my-2 list-group-item list-group-item-action ' id = 'cityLists'  >" + cityValue + "</button>") 
-        } 
+            $("#searchArea").append("<button type='button' class=' btn-dark my-2 list-group-item list-group-item-action ' id = 'cityLists'  >" + cityValue + "</button>")
+        }
         fetchFuncCity(cityAPI, cityValue)
         $("input").val("")
         currentDayEl.text("")
@@ -72,7 +80,7 @@ function getCityValue() {
 
 };
 
-{/* <div class="list-group">
+/* <div class="list-group">
   <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
     The current button
   </button>
@@ -80,4 +88,5 @@ function getCityValue() {
   <button type="button" class="list-group-item list-group-item-action">A third button item</button>
   <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
   <button type="button" class="list-group-item list-group-item-action" disabled>A disabled button item</button>
-</div> */}
+</div> */
+// ("<div class=' card col-1 fw-bold me-1'>" + moment().add(i, 'days').format("dddd") + "</div>")
