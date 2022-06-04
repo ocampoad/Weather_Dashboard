@@ -8,19 +8,28 @@ const weatherObj = {
     "Clouds": "<i class='fa-solid fa-cloud'></i>",
 }
 
-function fetchFunccoordinates(url) {
+function fetchFunccoordinates(url, cityValue) {
     fetch(url, {
         method: 'GET',
     })
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            for (i = 1; i < 7; i++) {
-                next5DaysEl.append("<div class=' card col-1 fw-bold me-1'>" + moment().add(i, 'days').format("dddd") + "</div>")
-                next5DaysEl.append("<div class=' fw-semibold'> Temperature: "+ tempinF.toPrecision(4)+ " °F</div>")
-                next5DaysEl.append("<div class=' fw-semibold'> Humidity: "+ humidityVal+ "%</div>")
-                next5DaysEl.append("<div class=' fw-semibold'> Wind: "+ windSpeed+ " MPH</div>")
-            }
+            let weatherIcon = data.current.weather[0].icon
+            let tempinF = 1.8*(data.current.temp - 273.15)+32;
+            let humidityVal = data.current.humidity
+            let windSpeed = data.current.wind_speed
+            currentDayEl.append(cityValue + ": " + moment().format("dddd, MM/DD/YY") + " ")
+            currentDayEl.append(" <img src = 'http://openweathermap.org/img/wn/" + weatherIcon + ".png'>")
+            currentDayEl.append("<div class=' fw-semibold'> Temperature: "+ tempinF.toPrecision(4)+ " °F</div>")
+            currentDayEl.append("<div class=' fw-semibold'> Humidity: "+ humidityVal+ "%</div>")
+            currentDayEl.append("<div class=' fw-semibold'> Wind: "+ windSpeed+ " MPH</div>")
+            // for (i = 1; i < 7; i++) {
+            //     next5DaysEl.append("<div class=' card col-1 fw-bold me-1'>" + moment().add(i, 'days').format("dddd") + "</div>")
+            //     next5DaysEl.append("<div class=' fw-semibold'> Temperature: "+ tempinF.toPrecision(4)+ " °F</div>")
+            //     next5DaysEl.append("<div class=' fw-semibold'> Humidity: "+ humidityVal+ "%</div>")
+            //     next5DaysEl.append("<div class=' fw-semibold'> Wind: "+ windSpeed+ " MPH</div>")
+            // }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -33,20 +42,10 @@ function fetchFuncCity(url, cityValue) {
     })
         .then(response => response.json())
         .then(data => {
-            console.log('Success:', data);
             let lat = data.coord.lat;
             let lon = data.coord.lon;
-            let weatherIcon = data.weather[0].icon
-            let tempinF = 1.8*(data.main.temp - 273.15)+32;
-            let humidityVal = data.main.humidity
-            let windSpeed = data.wind.speed
             const locationURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude={part}&appid=351d28b4fbd0330fa3241a105d978dd6"
-            currentDayEl.append(cityValue + ": " + moment().format("dddd, MM/DD/YY") + " ")
-            currentDayEl.append(" <img src = 'http://openweathermap.org/img/wn/" + weatherIcon + ".png'>")
-            currentDayEl.append("<div class=' fw-semibold'> Temperature: "+ tempinF.toPrecision(4)+ " °F</div>")
-            currentDayEl.append("<div class=' fw-semibold'> Humidity: "+ humidityVal+ "%</div>")
-            currentDayEl.append("<div class=' fw-semibold'> Wind: "+ windSpeed+ " MPH</div>")
-            fetchFunccoordinates(locationURL);
+            fetchFunccoordinates(locationURL, cityValue);
         })
         .catch((error) => {
             console.error('Error:', error);
