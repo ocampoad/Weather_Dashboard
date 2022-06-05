@@ -13,15 +13,15 @@ function fetchFunccoordinates(url, cityValue) {
             currentDayEl.text("")
             next5DaysEl.text("")
             console.log('Success:', data);
-            if ($("button:contains(" + cityValue.toUpperCase() + ")").length <= 0) {
-                $("#searchArea").append("<button type='button' class=' btn-dark my-2 list-group-item list-group-item-action ' id = 'cityLists'  >" + cityValue.toUpperCase() + "</button>")
+            if ($("button:contains(" + cityValue.toLowerCase() + ")").length <= 0) {
+                $("#searchArea").append("<button type='button' class=' btn-dark my-2 list-group-item list-group-item-action text-capitalize' id = 'cityLists'  >" + cityValue.toLowerCase() + "</button>")
             }
             let weatherIcon = data.current.weather[0].icon
             let tempinF = 1.8 * (data.current.temp - 273.15) + 32;
             let humidityVal = data.current.humidity
             let windSpeed = data.current.wind_speed
             let uvIndex = data.current.uvi
-            currentDayEl.append(cityValue.toUpperCase() + ": " + moment().format("dddd, MM/DD/YY") + " ")
+            currentDayEl.append(cityValue.toLowerCase() + ": " + moment().format("dddd, MM/DD/YY") + " ")
             currentDayEl.append(" <img src = 'http://openweathermap.org/img/wn/" + weatherIcon + ".png'>")
             currentDayEl.append("<div class=' fw-semibold'> Temperature: " + tempinF.toPrecision(4) + " °F</div>")
             currentDayEl.append("<div class=' fw-semibold'> Humidity: " + humidityVal + "%</div>")
@@ -86,9 +86,6 @@ $("#searchBtn").click(
     getCityValue);
 
 $("#searchArea").click(
-    // function () {
-    //     alert("I clicked it")
-    // });
     getCityListValue);
 
 function getCityListValue(event) {
