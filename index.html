@@ -15,23 +15,23 @@
 </head>
 
 <body>
-    <div class=" bg-primary text-white bg-gradient text-center fw-bold"> Weather Dashboard
+    <div class=" bg-primary text-white bg-gradient text-center fw-bold border border-dark border-2 fs-2" id="header"> Weather Dashboard
     </div>
-    <div class="row " style="height: 100px">
-        <div class="card col-2 border-0">
+    <div class="row" id="mainArea">
+        <div class="card col-2  border-secondary">
             <div class="card-body">
                 <div class="fw-bold">Search for a city:</div>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-dark" type="button">Search</button>
+                    <button class="btn btn-secondary" type="button" id="searchBtn">Search</button>
                 </form>
-                <div class="list-group" id="searchArea">
-                </div>
+                <form class="list-group" id="searchArea">
+                </form>
             </div>
         </div>
-        <div class="card col-10 border-0">
-            <div class=" fw-bold currentDay mb-3"></div>
-            <div class=" fw-bold next5Days row"></div>
+        <div class="card col-10 cborder border-secondary" id="weatherData">
+            <div class=" fw-bold currentDay mb-3 "></div>
+            <div class=" fw-bold next5Days row d-flex"></div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"

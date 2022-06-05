@@ -1,3 +1,27 @@
 .card {
     background-color: #afafaf91;
 }
+
+#header {
+    height: 75px;
+}
+
+#mainArea {
+    height: 100px
+}
+
+#weatherData {
+    max-height: 287px;
+}
+
+@media (max-width: 1292px ){
+    #weatherData {
+        max-height: 500px;
+    }
+}
+/* 
+@media (max-width: 768px ){
+    #weatherData {
+        max-height: 300px;
+    }
+} */
