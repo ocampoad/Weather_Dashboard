@@ -24,7 +24,6 @@ function getCityListValue(event) {
     } else {
         alert("please input a city")
     }
-
 };
 
 // function to run fetch() functions using user typed city
@@ -36,7 +35,6 @@ function getCityValue() {
     } else {
         alert("please input a city")
     }
-
 };
 
 // find coordinates of typed city name
