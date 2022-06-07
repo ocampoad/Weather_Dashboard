@@ -2,7 +2,46 @@
 const currentDayEl = $(".currentDay")
 const currentDayStatsEl = $(".currentDayStats")
 const next5DaysEl = $(".next5Days")
+const lastInput = JSON.parse(localStorage.getItem("cityWeatherData"));
 
+function getCityListValue(event) {
+    let cityValue = $(event.target).text();
+    if (cityValue) {
+        const cityAPI = "https://api.openweathermap.org/data/2.5/weather?q=" + cityValue + "&appid=351d28b4fbd0330fa3241a105d978dd6";
+        fetchFuncCity(cityAPI, cityValue)
+    } else {
+        alert("please input a city")
+    }
+
+};
+
+function getCityValue() {
+    let cityValue = $("input").val();
+    if (cityValue) {
+        const cityAPI = "https://api.openweathermap.org/data/2.5/weather?q=" + cityValue + "&appid=351d28b4fbd0330fa3241a105d978dd6";
+        fetchFuncCity(cityAPI, cityValue)
+    } else {
+        alert("please input a city")
+    }
+
+};
+
+function fetchFuncCity(url, cityValue) {
+    fetch(url, {
+        method: 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            let lat = data.coord.lat;
+            let lon = data.coord.lon;
+            const locationURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude={part}&appid=351d28b4fbd0330fa3241a105d978dd6"
+            fetchFunccoordinates(locationURL, cityValue);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert("please input a valid city")
+        });
+}
 function fetchFunccoordinates(url, cityValue) {
     fetch(url, {
         method: 'GET',
@@ -56,7 +95,6 @@ function fetchFunccoordinates(url, cityValue) {
         });
 }
 
-const lastInput = JSON.parse(localStorage.getItem("cityWeatherData"));
 if (lastInput != null) {
     let lat = lastInput.lat;
     let lon = lastInput.lon;
@@ -65,48 +103,8 @@ if (lastInput != null) {
     fetchFunccoordinates(locationURL, cityValue);
 }
 
-function fetchFuncCity(url, cityValue) {
-    fetch(url, {
-        method: 'GET',
-    })
-        .then(response => response.json())
-        .then(data => {
-            let lat = data.coord.lat;
-            let lon = data.coord.lon;
-            const locationURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude={part}&appid=351d28b4fbd0330fa3241a105d978dd6"
-            fetchFunccoordinates(locationURL, cityValue);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert("please input a valid city")
-        });
-}
-
 $("#searchBtn").click(
     getCityValue);
 
 $("#searchArea").click(
     getCityListValue);
-
-function getCityListValue(event) {
-    let cityValue = $(event.target).text();
-    if (cityValue) {
-        const cityAPI = "https://api.openweathermap.org/data/2.5/weather?q=" + cityValue + "&appid=351d28b4fbd0330fa3241a105d978dd6";
-        fetchFuncCity(cityAPI, cityValue)
-    } else {
-        alert("please input a city")
-    }
-
-};
-
-function getCityValue() {
-    let cityValue = $("input").val();
-    if (cityValue) {
-        const cityAPI = "https://api.openweathermap.org/data/2.5/weather?q=" + cityValue + "&appid=351d28b4fbd0330fa3241a105d978dd6";
-        fetchFuncCity(cityAPI, cityValue)
-    } else {
-        alert("please input a city")
-    }
-
-};
-
