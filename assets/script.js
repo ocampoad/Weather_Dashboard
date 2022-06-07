@@ -1,9 +1,21 @@
-
+// made variable for html elements
 const currentDayEl = $(".currentDay")
 const currentDayStatsEl = $(".currentDayStats")
 const next5DaysEl = $(".next5Days")
+
+// getting data from local Storage
 const lastInput = JSON.parse(localStorage.getItem("cityWeatherData"));
 
+// if local storage has data, this statement will run fetch() to display last searched city
+if (lastInput != null) {
+    let lat = lastInput.lat;
+    let lon = lastInput.lon;
+    let cityValue = lastInput.cityValue;
+    const locationURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude={part}&appid=351d28b4fbd0330fa3241a105d978dd6"
+    fetchFunccoordinates(locationURL, cityValue);
+}
+
+// function to obtain last searched city and run the fetch() functions
 function getCityListValue(event) {
     let cityValue = $(event.target).text();
     if (cityValue) {
@@ -15,6 +27,7 @@ function getCityListValue(event) {
 
 };
 
+// function to run fetch() functions using user typed city
 function getCityValue() {
     let cityValue = $("input").val();
     if (cityValue) {
@@ -26,6 +39,7 @@ function getCityValue() {
 
 };
 
+// find coordinates of typed city name
 function fetchFuncCity(url, cityValue) {
     fetch(url, {
         method: 'GET',
@@ -42,6 +56,8 @@ function fetchFuncCity(url, cityValue) {
             alert("please input a valid city")
         });
 }
+
+// get weather information using coordinates
 function fetchFunccoordinates(url, cityValue) {
     fetch(url, {
         method: 'GET',
@@ -95,16 +111,10 @@ function fetchFunccoordinates(url, cityValue) {
         });
 }
 
-if (lastInput != null) {
-    let lat = lastInput.lat;
-    let lon = lastInput.lon;
-    let cityValue = lastInput.cityValue;
-    const locationURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude={part}&appid=351d28b4fbd0330fa3241a105d978dd6"
-    fetchFunccoordinates(locationURL, cityValue);
-}
-
+// on click for submit button
 $("#searchBtn").click(
     getCityValue);
 
+// on click for displayed city names
 $("#searchArea").click(
     getCityListValue);
