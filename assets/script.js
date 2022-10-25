@@ -37,7 +37,7 @@ function getCityValue() {
     }
 };
 
-// find coordinates of typed city name
+// find coordinates of typed city name by longitude and latitude
 function fetchFuncCity(url, cityValue) {
     fetch(url, {
         method: 'GET',
